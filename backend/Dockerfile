@@ -12,5 +12,4 @@ RUN pip3 install -r requirements/dev_unix.txt
 COPY . .
 
 ENV PORT=5000
-EXPOSE $PORT
-CMD [ "gunicorn", "-w 4", "--reload", "--log-level=debug", "-b 0.0.0.0:${PORT##\\}", "backend.api:create_app(config='production')" ]
+CMD gunicorn -w 4 --reload --log-level=debug -b 0.0.0.0:$PORT backend.api:create_app(config='production')
