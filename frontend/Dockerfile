@@ -11,5 +11,6 @@ COPY .git/hooks/ .git/hooks/
 RUN npm run prepare
 COPY frontend/ .
 
+ENV POSTGRES_HOST=$DATABASE
 EXPOSE 3000
 CMD ["npm", "run", "dev"]
