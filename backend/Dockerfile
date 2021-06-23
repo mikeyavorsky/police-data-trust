@@ -13,4 +13,4 @@ COPY . .
 
 ENV PORT=5000
 EXPOSE $PORT
-CMD [ "/bin/bash", "run_unix.sh" ]
+CMD [ "gunicorn", "-w 4", "--reload", "--log-level=debug", "-b 0.0.0.0:$PORT", "backend.api:create_app(config='production')" ]
