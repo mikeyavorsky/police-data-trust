@@ -1,9 +1,10 @@
 from typing import Optional
 
 import click
+import logging
 from flask import Flask
 from flask_mail import Mail
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from backend.config import get_config_from_env
 from backend.database import db
 from backend.database import db_cli
@@ -26,6 +27,8 @@ def create_app(config: Optional[str] = None):
         register_commands(app)
         register_routes(app)
 
+    logging.getLogger('flask_cors').level = logging.DEBUG
+
     # @app.before_first_request
     # def _():
     #     db.create_all()
@@ -39,7 +42,7 @@ def register_extensions(app: Flask):
     user_manager.init_app(app)
     jwt.init_app(app)
     Mail(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/*": {"origins": "*", "send_wildcard": True}})
 
 
 def register_commands(app: Flask):
@@ -114,6 +117,7 @@ def register_routes(app: Flask):
     app.register_blueprint(healthcheck_bp)
 
     @app.route("/")
+    @cross_origin()
     def hello_world():
         return "Hello, world!"
 

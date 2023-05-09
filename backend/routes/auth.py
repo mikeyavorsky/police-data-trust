@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_cors import cross_origin
+from flask_cors import CORS, cross_origin
 from flask_jwt_extended import (
     create_access_token,
     get_jwt_identity,
@@ -15,9 +15,11 @@ from ..schemas import UserSchema, validate
 
 bp = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
+CORS(bp)
 
 @bp.route("/login", methods=["POST"])
 @validate(auth=False, json=LoginUserDTO)
+@cross_origin()
 def login():
     """Sign in with email and password.
 
@@ -58,6 +60,7 @@ def login():
 
 @bp.route("/register", methods=["POST"])
 @validate(auth=False, json=RegisterUserDTO)
+@cross_origin()
 def register():
     """Register for a new public account.
 
