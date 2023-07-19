@@ -1,8 +1,8 @@
 from .. import db
 from backend.database.models.officer import Rank
-# from backend.database.models.source import MemberRole
+from backend.database.models.user import MemberRole
 
-""" source_user = db.Table(
+source_user = db.Table(
     'source_user',
     db.Column('source_id', db.String, db.ForeignKey('source.id'),
               primary_key=True),
@@ -13,7 +13,6 @@ from backend.database.models.officer import Rank
     db.Column('is_active', db.Boolean),
     db.Column('is_admin', db.Boolean)
 )
- """
 
 incident_agency = db.Table(
     'incident_agency',

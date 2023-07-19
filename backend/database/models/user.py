@@ -12,6 +12,23 @@ from enum import Enum
 
 fs_mixin = FlaskSerialize(db)
 
+class MemberRole(Enum):
+    ADMIN = "Administrator"
+    PUBLISHER = "Publisher"
+    MEMBER = "Member"
+    SUBSCRIBER = "Subscriber"
+
+    def get_value(self):
+        if self == MemberRole.ADMIN:
+            return 1
+        elif self == MemberRole.PUBLISHER:
+            return 2
+        elif self == MemberRole.MEMBER:
+            return 3
+        elif self == MemberRole.SUBSCRIBER:
+            return 4
+        else:
+            return 5
 
 # Creating this class as NOCASE collation is not compatible with ordinary
 # SQLAlchemy Strings
