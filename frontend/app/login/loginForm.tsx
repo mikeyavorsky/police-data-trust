@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
-import styles from "./login.module.css";
+import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/public/images/NPDC_Logo_FINAL blue2 1.svg";
-import Box from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -15,9 +14,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputLabel from "@mui/material/InputLabel";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import styles from "./login.module.css";
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   type UserData = {
     email: string;
@@ -51,12 +51,12 @@ export default function LoginForm() {
 
   const [formError, setFormError] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
   };
 
   const handleFormError = (data: UserData) => {
-    if (data.email == "" || !data.email.includes("@")) {
+    if (data.email === "" || !data.email.includes("@")) {
       setFormError(true);
       return;
     }
@@ -65,11 +65,10 @@ export default function LoginForm() {
       setFormError(true);
     } else {
       setFormError(false);
-      // console.log(createrUser(userData));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", userData);
     handleFormError(userData);
@@ -98,11 +97,7 @@ export default function LoginForm() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
-
-        // Store the access token securely
         localStorage.setItem("access_token", data.access_token);
-
-        // Redirect or update UI as needed
         alert("Login successful!");
       } else {
         const errorData = await response.json();
@@ -118,13 +113,13 @@ export default function LoginForm() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
 
   const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
@@ -158,13 +153,10 @@ export default function LoginForm() {
             sx={{ width: "100%", py: "5px" }}
             margin="dense"
             onChange={handleChange}
-            error={formError ? true : false}
-            helperText={formErrorMessages.email}
+            error={formError}
+            helperText={formError ? formErrorMessages.email : ""}
           />
-          <FormControl
-            sx={{ marginY: "5px", width: "100%" }}
-            variant="outlined"
-          >
+          <FormControl sx={{ marginY: "5px", width: "100%" }} variant="outlined">
             <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
               id="password"
@@ -172,14 +164,12 @@ export default function LoginForm() {
               value={userData.password}
               type={showPassword ? "text" : "password"}
               onChange={handleChange}
-              error={formError ? true : false}
+              error={formError}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
+                      showPassword ? "hide the password" : "display the password"
                     }
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
@@ -193,6 +183,7 @@ export default function LoginForm() {
               label="Password"
             />
           </FormControl>
+
           <Button
             variant="contained"
             type="submit"
@@ -200,6 +191,36 @@ export default function LoginForm() {
           >
             Login
           </Button>
+
+          <Box sx={{  width: "100%", display: 'flex', gap: 1, flexDirection: 'column' }}>
+            <Link
+              href="/forgot-password"
+              style={{
+                color: "#1976d2",
+                textDecoration: "underline",
+                display: "block",
+                marginBottom: "12px",
+                fontSize: "0.9rem",
+              }}
+            >
+              Forgot password?
+            </Link>
+
+            <Box sx={{ fontWeight: "bold", fontSize: "0.95rem", marginBottom: "4px" }}>
+              New to the National Police Data Coalition?
+            </Box>
+
+            <Link
+              href="/register"
+              style={{
+                color: "#1976d2",
+                textDecoration: "underline",
+                fontSize: "0.9rem",
+              }}
+            >
+              Create account
+            </Link>
+          </Box>
         </form>
       </Box>
     </div>
