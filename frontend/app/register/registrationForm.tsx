@@ -52,7 +52,7 @@ export default function RegistrationForm() {
 
   const [formError, setFormError] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
   };
 
@@ -83,7 +83,7 @@ export default function RegistrationForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     handleFormError(userData);
@@ -211,7 +211,7 @@ export default function RegistrationForm() {
             />
           </FormControl>
           <FormControl
-            varient="outlined"
+            variant="outlined"
             sx={{ width: "100%", marginY: "5px" }}
           >
             <InputLabel htmlFor="password">Confirm Password</InputLabel>
